@@ -1,0 +1,191 @@
+@import '@/assets/sass/var.sass';
+
+.select-label {
+	display: inline-block;
+	color: $white;
+	font-size: 14px;
+	line-height: 16px;
+	margin-bottom: 16px;
+}
+
+.custom-select {
+	position: relative;
+	min-height: 36px;
+	width: 100%;
+	height: 100%;
+	cursor: pointer;
+	font-size: 14px;
+	color: $white;
+	background: $bg-select;
+	border: 1px solid $bg-light;
+	border-radius: 4px;
+
+	.title {
+		display: flex;
+		align-items: center;
+		height: 100%;
+		margin: 0;
+		background: transparent;
+		padding: 10px 34px 10px 12px;
+		white-space: nowrap;
+		box-sizing: border-box;
+	}
+
+	.arrow {
+		transition: transform 0.2s linear;
+		position: absolute;
+		right: 12px;
+		top: 35%;
+		transform: rotate(45deg);
+		border: solid $white;
+		border-width: 0 2px 2px 0;
+		padding: 3px;
+		z-index: 90;
+	}
+
+	.opened {
+		transform: translateY(50%) rotate(-135deg);
+	}
+
+	.options {
+		box-sizing: border-box;
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		position: absolute;
+		top: -1px;
+		right: -2px;
+		width: 102%;
+		background: $bg-select;
+		border: 1px solid $bg-select;
+		border-radius: 4px;
+		z-index: 100;
+		overflow-x: auto;
+		scrollbar-color: $accent $bg-select;
+		scrollbar-width: thin;
+
+		&::-webkit-scrollbar {
+			width: 3px;
+			border-radius: 4px;
+			background-color: $bg-select;
+		}
+
+		&::-webkit-scrollbar-track {
+			box-shadow: inset 0 0 2px $bg-select;
+			border-radius: 10px;
+		}
+
+		&::-webkit-scrollbar-thumb {
+			background: $accent;
+			border-radius: 4px;
+			transition: background 0.2s linear;
+
+			&:hover {
+				background: darken($accent, 10%);
+			}
+		}
+	}
+
+	.option-item {
+		height: 40px;
+		border: 1px solid $bg-select;
+		border-radius: 4px;
+		margin: 0;
+		padding: 10px 12px;
+		transition: background 0.1s linear;
+		color: $white;
+
+		&:hover {
+			background: rgba(#d6d6d6, 0.5);
+		}
+	}
+
+	&.select_yellow {
+		background: $accent;
+		color: $border;
+		box-shadow: 0px 4px 2px rgba(0, 0, 0, 0.25);
+		border: none;
+		border-radius: 4px;
+		text-transform: uppercase;
+
+		& .arrow {
+			border-width: 0 1px 1px 0;
+			border-color: #000;
+		}
+
+		.options {
+			background: $white;
+			border: 1px solid $accent;
+			top: calc(100% + 2px);
+		}
+
+		.option-item {
+			height: 20px;
+			margin: 8px 0;
+			padding: 2px 11px;
+			color: #000;
+			border: none;
+		}
+	}
+
+	&.select_white {
+		background: $white;
+		color: $border;
+		border: 1px solid $bg-light;
+		border-radius: 4px;
+		text-transform: uppercase;
+
+		& .arrow {
+			border-width: 0 1px 1px 0;
+			border-color: #000;
+		}
+
+		.options {
+			background: $white;
+			border: 1px solid $bg-dark;
+			top: calc(100% + 2px);
+			right: 0;
+			width: 100%;
+			overflow-y: auto;
+			max-height: 120px;
+
+			&::-webkit-scrollbar {
+				width: 6px;
+				border-radius: 4px;
+				background-color: $bg-select;
+			}
+
+			&::-webkit-scrollbar-track {
+				box-shadow: inset 0 0 2px $bg-select;
+				border-radius: 10px;
+			}
+
+			&::-webkit-scrollbar-thumb {
+				background: $accent;
+				border-radius: 4px;
+			}
+		}
+
+		.option-item {
+			height: 20px;
+			margin: 8px 0;
+			padding: 2px 11px;
+			color: $black;
+			border: none;
+		}
+	}
+
+	&.disabled {
+		background: #5e5e5e;
+		color: $disabled;
+		transition: background 0.1s linear;
+
+		& .arrow {
+			border-color: $disabled;
+		}
+
+		&:active {
+			background: #ccaa00;
+		}
+	}
+}
