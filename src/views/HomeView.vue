@@ -1,20 +1,27 @@
 <template>
 	<div class="main">
-		<div class="section">
-			<h1 class="title" style="font-width: 26px">Snake 2</h1>
+		<header class="header">
+			<div class="logo">
+				<img src="../assets/images/snake.png" alt="logo" />
+			</div>
+			<h1 class="title" style="font-width: 26px">Fat Snake 2</h1>
+		</header>
+		<div class="control">
+			<div class="control__select">
+				<label for="select">Select size</label>
+				<custom-select
+					:options="selectOptions"
+					:selected="SelectedOption"
+					:changeHandler="setSelectedOption"
+					color="yellow"
+					id="select"
+				/>
+			</div>
+			<!-- <div class="control__range">
+				<input type="range" name="speed" id="speed" value="3" min="1" max="5" />
+			</div> -->
+			<custom-button :handleClick="() => this.$router.push({ path: '/game' })">Start</custom-button>
 		</div>
-		<div class="section" style="width: 300px">
-			<label for="select">Select size</label>
-			<custom-select
-				:options="selectOptions"
-				:selected="SelectedOption"
-				:changeHandler="setSelectedOption"
-				color="yellow"
-				id="select"
-			/>
-			<!-- <input type="range" name="speed" id="speed" value="3" min="1" max="5" /> -->
-		</div>
-		<custom-button :handleClick="() => this.$router.push({ path: '/game' })">Start</custom-button>
 	</div>
 </template>
 
@@ -52,12 +59,40 @@ export default {
 <style lang="scss" scoped>
 .main {
 	text-align: center;
+	margin-top: 100px;
 
-	.section {
+	.header {
 		margin-bottom: 30px;
+
+		.logo {
+			display: flex;
+			justify-content: center;
+
+			img {
+				display: block;
+				width: 200px;
+				max-width: 100%;
+			}
+		}
 
 		.title {
 			font-size: 50px;
+		}
+	}
+
+	.control {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		&__select {
+			width: 200px;
+			margin-bottom: 20px;
+
+			& label {
+				display: block;
+				margin-bottom: 10px;
+			}
 		}
 	}
 }

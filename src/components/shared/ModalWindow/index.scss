@@ -1,46 +1,46 @@
 @import '@/assets/sass/var.sass';
 
 .modal {
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+	position: fixed;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1000;
 
-  &__inner {
-    padding-top: 56px;
-    background: $bg-modal;
-    z-index: 101;
-    max-width: 582px;
-    border-radius: 4px;
-    color: $white;
-    font-size: 14px;
-    filter: drop-shadow(0px 4px 20px rgba(0, 0, 0, 0.4));
-    position: relative;
+	&__inner {
+		padding-top: 56px;
+		background: $bg-modal;
+		z-index: 101;
+		max-width: 582px;
+		border-radius: 4px;
+		color: $white;
+		font-size: 14px;
+		filter: drop-shadow(0px 4px 20px rgba(0, 0, 0, 0.4));
+		position: relative;
 
-    h3 {
-      font-size: 14px;
-      text-transform: uppercase;
-      text-align: center;
-      margin-bottom: 30px;
-      font-weight: 400;
-    }
-  }
+		h3 {
+			font-size: 18px;
+			text-transform: uppercase;
+			text-align: center;
+			margin-bottom: 30px;
+			font-weight: 400;
+		}
+	}
 
-  &__close-btn {
-    position: absolute;
-    top: 30px;
-    right: 30px;
-    width: 14px;
-    height: 14px;
-    cursor: pointer;
-  }
+	&__close-btn {
+		position: absolute;
+		top: 30px;
+		right: 30px;
+		width: 14px;
+		height: 14px;
+		cursor: pointer;
+	}
 }
-      
+
 .global {
-  background: #585858;
+	background: #585858;
 }
