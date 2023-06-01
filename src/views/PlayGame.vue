@@ -1,26 +1,26 @@
 <template>
-	<div>
-		<h1>GAME</h1>
-    <div class="panel">
-      <div class="panel__left">
-        <game-field />
-        <score-bar :score="score" :record="getRecord" />
-      </div>
-      <div class="panel__right">
-        <side-bar />
-      </div>
-    </div>
-    <game-over-dialog
-      :isShowModal="isOpenModal"
-      :closeModal="() => isOpenModal = false"
-      :restartGame="restartGame"
-      :score="score"
-    />
+	<div class="wraper">
+		<div class="panel">
+			<div class="panel__left">
+				<h1>GAME</h1>
+				<game-field />
+				<score-bar :score="score" :record="record" />
+			</div>
+			<div class="panel__right">
+				<side-bar :reset="restartGame" />
+			</div>
+		</div>
+		<game-over-dialog
+			:isShowModal="isOpenModal"
+			:closeModal="() => (isOpenModal = false)"
+			:restartGame="restartGame"
+			:score="score"
+		/>
 	</div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 // Components
 import GameField from '@/components/GameField.vue';
 import GameOverDialog from '@/components/GameOverDialog';
@@ -37,13 +37,12 @@ export default {
 			food: {},
 			score: 0,
 			timer: null,
-      isOpenModal: false,
-      record: 0,
+			isOpenModal: false,
 		};
 	},
 
 	mounted() {
-    this.init();
+		this.init();
 	},
 
 	beforeUnmount() {
@@ -54,15 +53,8 @@ export default {
 		...mapGetters({
 			blocksCollection: 'field/blocksCollection',
 			fieldWidth: 'field/fieldWidth',
+			record: 'field/record',
 		}),
-
-    getRecord() {
-      if (this.record) {
-        return this.record;
-      } else {
-        return 'There is no high score';
-      }
-    },
 	},
 
 	watch: {
@@ -86,15 +78,20 @@ export default {
 	},
 
 	methods: {
-    init() {
-      document.addEventListener('keydown', this.getDirection);
-      this.snake[0] = {
-        x: Math.round(this.fieldWidth / 2),
-        y: Math.round(this.fieldWidth / 2),
-      };
-      this.createFood();
-      this.timer = setInterval(this.drawGame, 100);
-    },
+		...mapActions({
+			setRecord: 'field/setRecord',
+		}),
+
+		init() {
+			document.addEventListener('keydown', this.getDirection);
+			this.snake[0] = {
+				x: Math.round(this.fieldWidth / 2),
+				y: Math.round(this.fieldWidth / 2),
+			};
+			this.createFood();
+			this.timer = setInterval(this.drawGame, 100);
+			this.setRecord(localStorage.getItem('record'));
+		},
 
 		createFood() {
 			const newFood = {
@@ -182,28 +179,29 @@ export default {
 				const isCollision = body.some(item => item.x === head.x && item.y === head.y);
 				if (isCollision) {
 					clearInterval(this.timer);
-          this.isOpenModal = true;
+					this.isOpenModal = true;
+					if (!localStorage.getItem('record') || localStorage.getItem('record') < this.score) {
+						this.setRecord(this.score);
+						localStorage.setItem('record', this.score);
+					}
 				}
 			}
 		},
 
-    restartGame() {
-      this.snake = [{
-        x: Math.round(this.fieldWidth / 2),
-        y: Math.round(this.fieldWidth / 2),
-      }];
-      this.dir = '';
-      this.blocksCollection.querySelector('.food')?.classList.remove('food');
-      this.createFood();
-      this.timer = setInterval(this.drawGame, 100);
-      this.isOpenModal = false;
-
-      if(!localStorage.getItem('record') || localStorage.getItem('record') < this.score) {
-        this.record = this.score;
-        localStorage.setItem('record', this.score);
-      }
-      this.score = 0;
-    },
+		restartGame() {
+			this.snake = [
+				{
+					x: Math.round(this.fieldWidth / 2),
+					y: Math.round(this.fieldWidth / 2),
+				},
+			];
+			this.dir = '';
+			this.blocksCollection.querySelector('.food')?.classList.remove('food');
+			this.createFood();
+			this.timer = setInterval(this.drawGame, 100);
+			this.isOpenModal = false;
+			this.score = 0;
+		},
 	},
 };
 </script>
@@ -211,36 +209,43 @@ export default {
 <style lang="scss">
 @import '@/assets/sass/var.sass';
 
-.panel {
-  display: flex;
-  width: 100%;
-
-  &__right {
-    width: 220px;
-    padding-left: 20px;
-  }
-}
-
-.container {
+.wraper {
+	width: 100%;
+	height: 100vh;
 	display: flex;
-	flex-wrap: wrap;
-	width: 480px;
-	height: 480px;
-	outline: 1px solid $black;
+	justify-content: center;
+	align-items: center;
 
-	.snake-head {
-		background-color: $snake-header;
+	.panel {
+		display: flex;
+
+		&__right {
+			width: 220px;
+			padding-left: 20px;
+		}
 	}
 
-	.snake-body {
-		background-color: $snake-body;
-	}
+	.container {
+		display: flex;
+		flex-wrap: wrap;
+		width: 480px;
+		height: 480px;
+		outline: 1px solid $black;
 
-	.food {
-		background-image: url(../../src/assets/images/food.png);
-		background-size: contain;
-		background-origin: content-box;
-		background-repeat: no-repeat;
+		.snake-head {
+			background-color: $snake-header;
+		}
+
+		.snake-body {
+			background-color: $snake-body;
+		}
+
+		.food {
+			background-image: url(../../src/assets/images/food.png);
+			background-size: contain;
+			background-origin: content-box;
+			background-repeat: no-repeat;
+		}
 	}
 }
 </style>
