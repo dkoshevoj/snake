@@ -9,6 +9,7 @@
 				Reset record
 			</custom-button>
 		</div>
+		<div class="sidebar__description">feed your snake!</div>
 	</div>
 </template>
 
@@ -56,9 +57,9 @@ export default {
 	}
 
 	&__control {
-		margin-top: 15px;
+		margin: 15px 0;
 
-		&-btn {
+		&-btn:first-child {
 			margin-bottom: 10px;
 		}
 	}

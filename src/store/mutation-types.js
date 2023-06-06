@@ -1,3 +1,4 @@
 export const SET_FIELD_WIDTH = 'SET_FIELD_WIDTH';
 export const SET_COLLECTION = 'SET_COLLECTION';
 export const SET_RECORD = 'SET_RECORD';
+export const SET_VELOCITY = 'SET_VELOCITY';

@@ -4,23 +4,29 @@
 			<div class="logo">
 				<img src="../assets/images/snake.png" alt="logo" />
 			</div>
-			<h1 class="title" style="font-width: 26px">Fat Snake 2</h1>
+			<h1 class="title">Fat Snake 2</h1>
 		</header>
 		<div class="control">
 			<div class="control__select">
 				<label for="select">Select size</label>
 				<custom-select
 					:options="selectOptions"
-					:selected="SelectedOption"
+					:selected="selectedOption"
 					:changeHandler="setSelectedOption"
 					color="yellow"
 					id="select"
+					class="control__select-select"
+				/>
+				<input-range
+					min="1"
+					max="5"
+					step="1"
+					title="speed"
+					:changeHandler="changeSpeed"
+					:value="speed"
 				/>
 			</div>
-			<!-- <div class="control__range">
-				<input type="range" name="speed" id="speed" value="3" min="1" max="5" />
-			</div> -->
-			<custom-button :handleClick="() => this.$router.push({ path: '/game' })">Start</custom-button>
+			<custom-button :handleClick="startGame">Start</custom-button>
 		</div>
 	</div>
 </template>
@@ -28,18 +34,20 @@
 <script>
 import CustomSelect from '@/components/shared/CustomSelect';
 import CustomButton from '@/components/shared/CustomButton';
+import InputRange from '@/components/shared/InputRange';
 
 import { mapActions } from 'vuex';
 
 export default {
-	components: { CustomSelect, CustomButton },
+	components: { CustomSelect, CustomButton, InputRange },
 	data() {
 		return {
 			selectOptions: [
 				{ value: 15, name: '15 cells' },
 				{ value: 20, name: '20 cells' },
 			],
-			SelectedOption: { value: 15, name: '15 cells' },
+			selectedOption: { value: 15, name: '15 cells' },
+			speed: 3,
 		};
 	},
 	name: 'HomeView',
@@ -47,10 +55,20 @@ export default {
 	methods: {
 		...mapActions({
 			setFieldWidth: 'field/setFieldWidth',
+			setVelocity: 'field/setVelocity',
 		}),
 		setSelectedOption(selectedOption) {
-			this.SelectedOption = selectedOption;
-			this.setFieldWidth(selectedOption.value);
+			this.selectedOption = selectedOption;
+		},
+
+		startGame() {
+			this.setVelocity(this.speed);
+			this.setFieldWidth(this.selectedOption.value);
+			this.$router.push({ path: '/game' });
+		},
+
+		changeSpeed(value) {
+			this.speed = value;
 		},
 	},
 };
@@ -87,7 +105,11 @@ export default {
 
 		&__select {
 			width: 200px;
-			margin-bottom: 20px;
+			margin-bottom: 30px;
+
+			&-select {
+				margin-bottom: 20px;
+			}
 
 			& label {
 				display: block;
