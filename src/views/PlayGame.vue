@@ -38,6 +38,13 @@ export default {
 			score: 0,
 			timer: null,
 			isOpenModal: false,
+			speedPoints: {
+				1: 150,
+				2: 120,
+				3: 100,
+				4: 80,
+				5: 60,
+			},
 		};
 	},
 
@@ -54,7 +61,12 @@ export default {
 			blocksCollection: 'field/blocksCollection',
 			fieldWidth: 'field/fieldWidth',
 			record: 'field/record',
+			velocity: 'field/velocity',
 		}),
+
+		speed() {
+			return this.speedPoints[this.velocity];
+		},
 	},
 
 	watch: {
@@ -89,7 +101,7 @@ export default {
 				y: Math.round(this.fieldWidth / 2),
 			};
 			this.createFood();
-			this.timer = setInterval(this.drawGame, 100);
+			this.timer = setInterval(this.drawGame, this.speed);
 			this.setRecord(localStorage.getItem('record'));
 		},
 
@@ -98,8 +110,8 @@ export default {
 				x: Math.floor(Math.random() * this.fieldWidth + 1),
 				y: Math.floor(Math.random() * this.fieldWidth + 1),
 			};
-			const el = this.snake.some(i => i.x === newFood.x && i.y === newFood.y);
-			if (!el) {
+			const isFoodOnBody = this.snake.some(body => body.x === newFood.x && body.y === newFood.y);
+			if (!isFoodOnBody) {
 				this.food = newFood;
 			} else {
 				this.createFood();
@@ -156,6 +168,7 @@ export default {
 				y: coordinates[1],
 			};
 
+			// Passing through boundaries
 			if (newHead.x === 0) newHead.x = this.fieldWidth;
 			if (newHead.x === this.fieldWidth + 1) newHead.x = 1;
 			if (newHead.y === 0) newHead.y = this.fieldWidth;
@@ -198,7 +211,7 @@ export default {
 			this.dir = '';
 			this.blocksCollection.querySelector('.food')?.classList.remove('food');
 			this.createFood();
-			this.timer = setInterval(this.drawGame, 100);
+			this.timer = setInterval(this.drawGame, this.speed);
 			this.isOpenModal = false;
 			this.score = 0;
 		},
@@ -233,11 +246,11 @@ export default {
 		outline: 1px solid $black;
 
 		.snake-head {
-			background-color: $snake-header;
+			background: radial-gradient(circle, $snake-header-1 35%, $snake-header-2 100%);
 		}
 
 		.snake-body {
-			background-color: $snake-body;
+			background: radial-gradient(circle, $snake-body-1 35%, $snake-body-2 100%);
 		}
 
 		.food {
