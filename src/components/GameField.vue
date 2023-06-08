@@ -7,6 +7,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import FieldBlock from './FieldBlock.vue';
+import { BLOCK_SIZE } from '@/store/constants';
 
 export default {
 	components: { FieldBlock },
@@ -30,8 +31,8 @@ export default {
 		},
 
 		containerWidth() {
-			return `width: ${this.fieldWidth * 32}px;
-              height: ${this.fieldWidth * 32}px`;
+			return `width: ${this.fieldWidth * BLOCK_SIZE}px;
+              height: ${this.fieldWidth * BLOCK_SIZE}px`;
 		},
 	},
 	methods: {

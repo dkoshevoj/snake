@@ -1,19 +1,13 @@
 <template>
-	<Modal
-		v-if="isShowModal"
-		title="Game over"
-		:handleClick="closeModal"
-		:global="true"
-		:keyEventListener="keyboardEventHandler"
-	>
+	<Modal v-if="isShowModal" title="Game over" :handleClick="closeModal" :keyEventListener="keyboardEventHandler">
 		<div class="dialog">
 			<p class="dialog__text">
 				Geme over. Your score: {{ score }}. Do you want restart game?
 				<span>Your snake isn’t fat enough</span>
 			</p>
 			<div class="dialog__btn">
-				<Button :handleClick="closeModal" color="dark">Cancel</Button>
-				<Button :handleClick="restartGame" color="yellow">Restart</Button>
+				<Button id="game-over-dialog-btn-dark" :handleClick="closeModal" color="dark">Cancel</Button>
+				<Button id="game-over-dialog-btn-yellow" :handleClick="restartGame" color="yellow">Restart</Button>
 			</div>
 		</div>
 	</Modal>

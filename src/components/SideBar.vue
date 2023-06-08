@@ -4,8 +4,15 @@
 		<p class="sidebar__title">To control the game press the arrows</p>
 		<router-link class="sidebar__link" aria-current="page" to="/">Return to home page</router-link>
 		<div class="sidebar__control">
-			<custom-button class="sidebar__control-btn" :handleClick="reset">Restart game</custom-button>
-			<custom-button class="sidebar__control-btn" color="yellow" :handleClick="resetRecord">
+			<custom-button class="sidebar__control-btn" id="sidebar-btn-reset-game" :handleClick="reset"
+				>Restart game</custom-button
+			>
+			<custom-button
+				class="sidebar__control-btn"
+				id="sidebar-btn-reset-record"
+				color="yellow"
+				:handleClick="resetRecord"
+			>
 				Reset record
 			</custom-button>
 		</div>

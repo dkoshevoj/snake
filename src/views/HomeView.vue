@@ -26,7 +26,7 @@
 					:value="speed"
 				/>
 			</div>
-			<custom-button :handleClick="startGame">Start</custom-button>
+			<custom-button :handleClick="startGame" id="start-game">Start</custom-button>
 		</div>
 	</div>
 </template>
