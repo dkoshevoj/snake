@@ -1,7 +1,7 @@
 <template>
 	<div class="score">
-		<p>Score: {{ score }}</p>
-		<p>Your best result: {{ record }}</p>
+		<p data-cy="score">Score: {{ score }}</p>
+		<p data-cy="record">Your best result: {{ record }}</p>
 	</div>
 </template>
 

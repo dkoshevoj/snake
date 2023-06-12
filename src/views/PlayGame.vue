@@ -1,26 +1,27 @@
 <template>
-	<div class="wraper">
+	<main class="game">
 		<div class="panel">
 			<div class="panel__left">
-				<h1>GAME</h1>
-				<game-field />
-				<score-bar :score="score" :record="record" />
+				<h1 class="panel__left-title">GAME</h1>
+				<GameField />
+				<ScoreBar :score="score" :record="record" />
 			</div>
-			<div class="panel__right">
-				<side-bar :reset="restartGame" />
-			</div>
+			<aside class="panel__right">
+				<SideBar :reset="restartGame" />
+			</aside>
 		</div>
-		<game-over-dialog
+		<GameOverDialog
 			:isShowModal="isOpenModal"
 			:closeModal="() => (isOpenModal = false)"
 			:restartGame="restartGame"
 			:score="score"
 		/>
-	</div>
+	</main>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import { DIRECTIONS, DIRECTION_KEYS } from '@/store/constants';
 // Components
 import GameField from '@/components/GameField.vue';
 import GameOverDialog from '@/components/GameOverDialog';
@@ -45,6 +46,7 @@ export default {
 				4: 80,
 				5: 60,
 			},
+			prevDir: '',
 		};
 	},
 
@@ -79,10 +81,7 @@ export default {
 		snake: {
 			handler(_, oldData) {
 				if (oldData[0].x === this.food.x && oldData[0].y === this.food.y) {
-					this.blocksCollection.querySelector('.food').classList.remove('food');
-					this.score++;
-					this.snake.unshift({ x: this.food.x, y: this.food.y });
-					this.createFood();
+					this.eatingFoodAction();
 				}
 			},
 			deep: true,
@@ -118,88 +117,120 @@ export default {
 			}
 		},
 
-		getDirection(Event) {
-			if (Event.keyCode === 37 && this.dir !== 'right') {
-				this.dir = 'left';
+		eatingFoodAction() {
+			this.blocksCollection
+				.querySelector('.food')
+				.classList.remove('food');
+
+			this.score++;
+			this.snake.unshift({ x: this.food.x, y: this.food.y });
+			this.createFood();
+		},
+
+		getDirection(event) {
+			if (event.keyCode === DIRECTION_KEYS.LEFT && this.prevDir !== DIRECTIONS.RIGHT) {
+				this.dir = DIRECTIONS.LEFT;
 			}
-			if (Event.keyCode === 39 && this.dir !== 'left') {
-				this.dir = 'right';
+			if (event.keyCode === DIRECTION_KEYS.RIGHT && this.prevDir !== DIRECTIONS.LEFT) {
+				this.dir = DIRECTIONS.RIGHT;
 			}
-			if (Event.keyCode === 38 && this.dir !== 'down') {
-				this.dir = 'up';
+			if (event.keyCode === DIRECTION_KEYS.UP && this.prevDir !== DIRECTIONS.DOWN) {
+				this.dir = DIRECTIONS.UP;
 			}
-			if (Event.keyCode === 40 && this.dir !== 'up') {
-				this.dir = 'down';
+			if (event.keyCode === DIRECTION_KEYS.DOWN && this.prevDir !== DIRECTIONS.UP) {
+				this.dir = DIRECTIONS.DOWN;
 			}
 		},
+
 
 		drawGame() {
-			for (let child of this.blocksCollection.children) {
-				child.classList.remove('snake-head');
-				child.classList.remove('snake-body');
-			}
+      this.clearBlocks();
+      this.drawSnake();
+      this.moveSnake();
+      this.checkCollision();
+    },
 
-			this.snake.forEach((block, i) => {
-				if (i === 0) {
-					this.blocksCollection
-						.querySelector(`[data-x="${block.x}"][data-y="${block.y}"]`)
-						.classList.add('snake-head');
-				} else {
-					this.blocksCollection
-						.querySelector(`[data-x="${block.x}"][data-y="${block.y}"]`)
-						.classList.add('snake-body');
-				}
-			});
+		clearBlocks() {
+      for (let child of this.blocksCollection.children) {
+        child.classList.remove('snake-head');
+        child.classList.remove('snake-body');
+      }
+    },
 
-			let coordinates = [this.snake[0].x, this.snake[0].y];
+		drawSnake() {
+      this.snake.forEach((block, i) => {
+        if (i === 0) {
+          this.blocksCollection
+            .querySelector(`[data-x="${block.x}"][data-y="${block.y}"]`)
+            .classList.add('snake-head');
+        } else {
+          this.blocksCollection
+            .querySelector(`[data-x="${block.x}"][data-y="${block.y}"]`)
+            .classList.add('snake-body');
+        }
+      });
+    },
 
-			if (this.dir === 'left') {
-				coordinates[0]--;
-			} else if (this.dir === 'right') {
-				coordinates[0]++;
-			} else if (this.dir === 'up') {
-				coordinates[1]--;
-			} else if (this.dir === 'down') {
-				coordinates[1]++;
-			}
+		moveSnake() {
+      let coordinates = [this.snake[0].x, this.snake[0].y];
 
-			let newHead = {
-				x: coordinates[0],
-				y: coordinates[1],
-			};
+      switch (this.dir) {
+        case DIRECTIONS.LEFT:
+          coordinates[0]--;
+          break;
+        case DIRECTIONS.RIGHT:
+          coordinates[0]++;
+          break;
+        case DIRECTIONS.UP:
+          coordinates[1]--;
+          break;
+        case DIRECTIONS.DOWN:
+          coordinates[1]++;
+          break;
+        default:
+          break;
+      }
 
-			// Passing through boundaries
-			if (newHead.x === 0) newHead.x = this.fieldWidth;
-			if (newHead.x === this.fieldWidth + 1) newHead.x = 1;
-			if (newHead.y === 0) newHead.y = this.fieldWidth;
-			if (newHead.y === this.fieldWidth + 1) newHead.y = 1;
+      let newHead = {
+        x: coordinates[0],
+        y: coordinates[1],
+      };
 
-			this.snake.unshift(newHead);
-			this.snake.pop();
+      // Passing through boundaries
+      if (newHead.x === 0) newHead.x = this.fieldWidth;
+      if (newHead.x === this.fieldWidth + 1) newHead.x = 1;
+      if (newHead.y === 0) newHead.y = this.fieldWidth;
+      if (newHead.y === this.fieldWidth + 1) newHead.y = 1;
 
-			this.checkCollision();
-		},
+      this.snake.unshift(newHead);
+      this.snake.pop();
+
+			this.prevDir = this.dir;
+    },
 
 		checkCollision() {
-			const head = {
-				x: this.snake[0].x,
-				y: this.snake[0].y,
-			};
+      const head = {
+        x: this.snake[0].x,
+        y: this.snake[0].y,
+      };
 
-			const body = this.snake.slice(1);
+      const body = this.snake.slice(1);
 
-			if (body.length) {
-				const isCollision = body.some(item => item.x === head.x && item.y === head.y);
-				if (isCollision) {
-					clearInterval(this.timer);
-					this.isOpenModal = true;
-					if (!localStorage.getItem('record') || localStorage.getItem('record') < this.score) {
-						this.setRecord(this.score);
-						localStorage.setItem('record', this.score);
-					}
-				}
-			}
-		},
+      if (body.length) {
+        const isCollision = body.some(
+          (item) => item.x === head.x && item.y === head.y
+        );
+        if (isCollision) {
+          clearInterval(this.timer);
+          this.isOpenModal = true;
+          const localStorageRecord = localStorage.getItem('record');
+          if (!localStorageRecord || localStorageRecord < this.score) {
+            this.setRecord(this.score);
+            localStorage.setItem('record', this.score);
+          }
+        }
+      }
+    },
 
 		restartGame() {
 			this.snake = [
@@ -222,7 +253,7 @@ export default {
 <style lang="scss">
 @import '@/assets/sass/var.sass';
 
-.wraper {
+.game {
 	width: 100%;
 	height: 100vh;
 	display: flex;
@@ -238,27 +269,27 @@ export default {
 		}
 	}
 
-	.container {
-		display: flex;
-		flex-wrap: wrap;
-		width: 480px;
-		height: 480px;
-		outline: 1px solid $black;
+	.snake-head {
+    background: radial-gradient(
+      circle,
+      $snake-header-1 35%,
+      $snake-header-2 100%
+    );
+  }
 
-		.snake-head {
-			background: radial-gradient(circle, $snake-header-1 35%, $snake-header-2 100%);
-		}
+	.snake-body {
+		background: radial-gradient(
+			circle,
+			$snake-body-1 35%,
+			$snake-body-2 100%
+		);
+	}
 
-		.snake-body {
-			background: radial-gradient(circle, $snake-body-1 35%, $snake-body-2 100%);
-		}
-
-		.food {
-			background-image: url(../../src/assets/images/food.png);
-			background-size: contain;
-			background-origin: content-box;
-			background-repeat: no-repeat;
-		}
+	.food {
+		background-image: url(@/assets/images/food.png);
+		background-size: contain;
+		background-origin: content-box;
+		background-repeat: no-repeat;
 	}
 }
 </style>

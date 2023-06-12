@@ -1,12 +1,14 @@
 <template>
 	<div class="container" ref="container" :style="containerWidth">
-		<field-block v-for="item in width" :key="item" />
+		<FieldBlock v-for="item in width" :key="item" />
 	</div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import FieldBlock from './FieldBlock.vue';
+import { BLOCK_SIZE } from '@/store/constants';
+// Components
+import FieldBlock from '@/components/FieldBlock.vue';
 
 export default {
 	components: { FieldBlock },
@@ -30,8 +32,8 @@ export default {
 		},
 
 		containerWidth() {
-			return `width: ${this.fieldWidth * 32}px;
-              height: ${this.fieldWidth * 32}px`;
+			return `width: ${this.fieldWidth * BLOCK_SIZE}px;
+              height: ${this.fieldWidth * BLOCK_SIZE}px`;
 		},
 	},
 	methods: {
@@ -56,7 +58,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@/assets/sass/var.sass';
 
 .container {

@@ -1,13 +1,24 @@
 <template>
 	<div class="sidebar">
-		<img src="../assets/images/keys.png" alt="keys" />
-		<p class="sidebar__title">To control the game press the arrows</p>
+		<img src="@/assets/images/keys.png" alt="keys" />
+		<h3 class="sidebar__title">To control the game press the arrows</h3>
 		<router-link class="sidebar__link" aria-current="page" to="/">Return to home page</router-link>
 		<div class="sidebar__control">
-			<custom-button class="sidebar__control-btn" :handleClick="reset">Restart game</custom-button>
-			<custom-button class="sidebar__control-btn" color="yellow" :handleClick="resetRecord">
+			<CustomButton
+				class="sidebar__control-btn"
+				id="sidebar-btn-reset-game"
+				:handleClick="reset"
+			>
+				Restart game
+			</CustomButton>
+			<CustomButton
+				class="sidebar__control-btn"
+				id="sidebar-btn-reset-record"
+				color="yellow"
+				:handleClick="resetRecord"
+			>
 				Reset record
-			</custom-button>
+			</CustomButton>
 		</div>
 		<div class="sidebar__description">feed your snake!</div>
 	</div>
@@ -15,7 +26,7 @@
 
 <script>
 import { mapActions } from 'vuex';
-import CustomButton from './shared/CustomButton';
+import CustomButton from '@/components/shared/CustomButton';
 
 export default {
 	name: 'SideBar',
@@ -30,6 +41,7 @@ export default {
 		...mapActions({
 			setRecord: 'field/setRecord',
 		}),
+		
 		resetRecord() {
 			localStorage.removeItem('record');
 			this.setRecord(0);
@@ -43,6 +55,8 @@ export default {
 	text-align: center;
 
 	&__title {
+		font-size: 16px;
+    font-weight: 400;
 		margin-bottom: 15px;
 	}
 
@@ -62,6 +76,10 @@ export default {
 		&-btn:first-child {
 			margin-bottom: 10px;
 		}
+	}
+
+	&__description {
+		font-family: 'Press Start 2P', cursive;
 	}
 }
 </style>

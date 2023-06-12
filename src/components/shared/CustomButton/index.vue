@@ -2,8 +2,8 @@
 	<button
 		class="btn btn_dark"
 		:class="{ btn_yellow: color === 'yellow', btn_disabled: disabled }"
-		@click="handleClick"
 		:disabled="disabled"
+		@click="handleClick"
 	>
 		<slot />
 	</button>
@@ -15,11 +15,12 @@ export default {
 	props: {
 		color: {
 			type: String,
-			default: 'dark',
+			default: () => 'dark',
 		},
+
 		disabled: {
 			type: Boolean,
-			default: false,
+			default: () => false,
 		},
 
 		handleClick: Function,
@@ -41,7 +42,7 @@ export default {
 	cursor: pointer;
 
 	&:disabled {
-		background-color: #5e5e5e;
+		background-color: $disabled-bg-button;
 		color: $disabled;
 	}
 

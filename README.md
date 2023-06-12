@@ -1,5 +1,8 @@
 # snake
 
+## Run in web
+[Fat Snake 2](https://snake-super.onrender.com)
+
 ## Project setup
 ```
 npm install
