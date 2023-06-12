@@ -1,31 +1,49 @@
 <template>
-	<Modal v-if="isShowModal" title="Game over" :handleClick="closeModal" :keyEventListener="keyboardEventHandler">
+	<ModalWindow v-if="isShowModal" title="Game over" :handleClick="closeModal" :keyEventListener="keyboardEventHandler">
 		<div class="dialog">
 			<p class="dialog__text">
-				Geme over. Your score: {{ score }}. Do you want restart game?
-				<span>Your snake isn’t fat enough</span>
+				Game over. <span class="dialog__text-substring">Your score: {{ score }}</span>. Do you want to restart the game?
+				<span class="dialog__text-substring">Your snake isn't fat enough</span>
 			</p>
 			<div class="dialog__btn">
-				<Button id="game-over-dialog-btn-dark" :handleClick="closeModal" color="dark">Cancel</Button>
-				<Button id="game-over-dialog-btn-yellow" :handleClick="restartGame" color="yellow">Restart</Button>
+				<CustomButton
+					id="game-over-dialog-btn-dark"
+					color="dark"
+					:handleClick="closeModal"
+				>
+					Cancel
+				</CustomButton>
+				<CustomButton
+					id="game-over-dialog-btn-yellow"
+					color="yellow"
+					:handleClick="restartGame"
+				>
+					Restart
+				</CustomButton>
 			</div>
 		</div>
-	</Modal>
+	</ModalWindow>
 </template>
 
 <script>
-import Modal from '@/components/shared/ModalWindow';
-import Button from '@/components/shared/CustomButton';
+import ModalWindow from '@/components/shared/ModalWindow';
+import CustomButton from '@/components/shared/CustomButton';
 
 export default {
 	name: 'GameOverDialog',
 	components: {
-		Modal,
-		Button,
+		ModalWindow,
+		CustomButton,
 	},
 	props: {
-		isShowModal: Boolean,
-		closeModal: Function,
+		isShowModal: {
+			type: Boolean,
+			required: true,
+		},
+		closeModal: {
+			type: Function,
+			required: true,
+		},
 		restartGame: Function,
 		score: Number,
 	},
@@ -57,7 +75,7 @@ export default {
 		margin-bottom: 30px;
 		text-align: center;
 
-		span {
+		&-substring {
 			text-decoration: underline;
 		}
 	}

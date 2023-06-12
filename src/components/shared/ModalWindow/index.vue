@@ -1,8 +1,10 @@
 <template>
 	<div class="modal" @mousedown="handleClick">
 		<div @mousedown.stop class="modal__inner">
-			<div class="modal__close-btn" @click="handleClick"><img src="../../../assets/images/close.svg" alt="close" /></div>
-			<h3>{{ title }}</h3>
+			<div class="modal__close-btn" @click="handleClick">
+				<img src="@/assets/images/close.svg" alt="close" />
+			</div>
+			<h3 class="modal__inner-title">{{ title }}</h3>
 			<slot />
 		</div>
 	</div>
@@ -10,7 +12,7 @@
 
 <script>
 export default {
-	name: 'modalWindow',
+	name: 'ModalWindow',
 	props: {
 		title: {
 			type: String,

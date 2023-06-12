@@ -2,8 +2,7 @@ import { shallowMount } from '@vue/test-utils';
 import HomeView from '@/views/HomeView.vue';
 
 describe('HomeView', () => {
-	let wrapper;
-	let $router;
+	let wrapper, $router;
 
 	beforeEach(() => {
 		$router = {
@@ -21,6 +20,10 @@ describe('HomeView', () => {
 
 	afterEach(() => {
 		wrapper.unmount();
+	});
+
+	it('renders the component', () => {
+		expect(wrapper.exists()).toBe(true);
 	});
 
 	it('renders the correct title', () => {
@@ -42,10 +45,6 @@ describe('HomeView', () => {
 		expect(setVelocityMock).toHaveBeenCalledWith(wrapper.vm.speed);
 		expect(setFieldWidthMock).toHaveBeenCalledWith(wrapper.vm.selectedOption.value);
 		expect($router.push).toHaveBeenCalledWith({ path: '/game' });
-	});
-
-	it('renders the component', () => {
-		expect(wrapper.exists()).toBe(true);
 	});
 
 	it('sets the initial data correctly', () => {
