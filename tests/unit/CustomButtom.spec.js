@@ -40,4 +40,16 @@ describe('CustomButton', () => {
 		wrapper.find('button').trigger('click');
 		expect(wrapper.vm.handleClick).toHaveBeenCalled();
 	});
+
+	it('check click event when clicked button with disabled property', () => {
+		const wrapper = shallowMount(CustomButton, {
+			props: {
+				handleClick: jest.fn(),
+				disabled: true,
+			},
+		});
+
+		wrapper.find('button').trigger('click');
+		expect(wrapper.vm.handleClick).not.toBeCalled();
+	});
 });

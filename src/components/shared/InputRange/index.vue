@@ -4,7 +4,15 @@
 			<label for="speed-range">{{ title }}</label>
 			<div class="form-value" id="speed-range">{{ value }}</div>
 		</div>
-		<input type="range" id="range" :value="value" :min="min" :max="max" :step="step" @input="setValue" />
+		<input
+			type="range"
+			id="range"
+			:value="value"
+			:min="min"
+			:max="max"
+			:step="step"
+			@input="setValue"
+		/>
 	</div>
 </template>
 
@@ -22,13 +30,13 @@ export default {
 			type: String,
 		},
 		title: {
-			type: String,
+			type: [String, Number],
 		},
 		changeHandler: {
 			type: Function,
 		},
 		value: {
-			type: [Number, String],
+			type: [String, Number],
 		},
 	},
 

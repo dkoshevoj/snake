@@ -2,32 +2,30 @@ import { mount } from '@vue/test-utils';
 import GameField from '@/components/GameField.vue';
 import FieldBlock from '@/components/FieldBlock.vue';
 import { BLOCK_SIZE } from '@/store/constants';
-import store from '@/store';
-// import { createStore } from 'vuex';
+import { createStore } from 'vuex';
 
 describe('GameField', () => {
-	let wrapper;
-	// let store;
+	let wrapper, store;
 
 	beforeEach(() => {
-		// store = createStore({
-		// 	modules: {
-		// 		field: {
-		// 			namespaced: true,
-		// 			state: {
-		// 				fieldWidth,
-		// 				blocksCollection: [],
-		// 			},
-		// 			getters: {
-		// 				fieldWidth: state => state.fieldWidth,
-		// 				blocksCollection: state => state.blocksCollection,
-		// 			},
-		// 			actions: {
-		// 				setCollection: jest.fn(),
-		// 			},
-		// 		},
-		// 	},
-		// });
+		store = createStore({
+			modules: {
+				field: {
+					namespaced: true,
+					state: {
+						fieldWidth: 15,
+						blocksCollection: [],
+					},
+					getters: {
+						fieldWidth: state => state.fieldWidth,
+						blocksCollection: state => state.blocksCollection,
+					},
+					actions: {
+						setCollection: jest.fn(),
+					},
+				},
+			},
+		});
 
 		wrapper = mount(GameField, {
 			global: {

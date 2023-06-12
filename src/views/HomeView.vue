@@ -2,22 +2,22 @@
 	<div class="main">
 		<header class="header">
 			<div class="logo">
-				<img src="../assets/images/snake.png" alt="logo" />
+				<img src="@/assets/images/snake.png" alt="logo" />
 			</div>
 			<h1 class="title">Fat Snake 2</h1>
 		</header>
 		<div class="control">
 			<div class="control__select">
 				<label for="select">Select size</label>
-				<custom-select
+				<CustomSelect
+					class="control__select-select"
+					id="select"
+					color="yellow"
 					:options="selectOptions"
 					:selected="selectedOption"
 					:changeHandler="setSelectedOption"
-					color="yellow"
-					id="select"
-					class="control__select-select"
 				/>
-				<input-range
+				<InputRange
 					min="1"
 					max="5"
 					step="1"
@@ -26,17 +26,17 @@
 					:value="speed"
 				/>
 			</div>
-			<custom-button :handleClick="startGame" id="start-game">Start</custom-button>
+			<CustomButton :handleClick="startGame" id="start-game">Start</CustomButton>
 		</div>
 	</div>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+// Components
 import CustomSelect from '@/components/shared/CustomSelect';
 import CustomButton from '@/components/shared/CustomButton';
 import InputRange from '@/components/shared/InputRange';
-
-import { mapActions } from 'vuex';
 
 export default {
 	components: { CustomSelect, CustomButton, InputRange },

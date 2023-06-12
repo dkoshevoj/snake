@@ -2,7 +2,7 @@ import { mount } from '@vue/test-utils';
 import PlayGame from '@/views/PlayGame.vue';
 import store from '@/store';
 import { createRouter, createWebHistory } from 'vue-router';
-// import { createStore } from 'vuex';
+import { DIRECTIONS, DIRECTION_KEYS } from '@/store/constants';
 
 const MockRouterView = {
 	template: '<div></div>',
@@ -10,35 +10,8 @@ const MockRouterView = {
 
 describe('PlayGame', () => {
 	let wrapper, router;
-	// let store;
 
 	beforeEach(() => {
-		// store = createStore({
-		// 	modules: {
-		// 		field: {
-		// 			namespaced: true,
-		// 			state: {
-		// 				blocksCollection: [],
-		//         fieldWidth: 15,
-		//         record: 0,
-		//         velocity: '4',
-		// 			},
-		// 			getters: {
-		// 				blocksCollection: state => state.blocksCollection,
-		//         fieldWidth: state => state.fieldWidth,
-		//         record: state => state.record,
-		//         velocity: state => state.velocity,
-		// 			},
-		// 			actions: {
-		// 				setCollection: jest.fn(),
-		// 				setFieldWidth: jest.fn(),
-		// 				setVelocity: jest.fn(),
-		// 				setRecord: jest.fn(),
-		// 			},
-		// 		},
-		// 	},
-		// });
-
 		router = createRouter({
 			history: createWebHistory(),
 			routes: [
@@ -109,7 +82,14 @@ describe('PlayGame', () => {
 	});
 
 	it('updates the computed property "speed"', () => {
+		// Velocity = 3
 		expect(wrapper.vm.speed).toBe(100);
+
+		wrapper.vm.$store.dispatch('field/setVelocity', 5);
+		expect(wrapper.vm.$store.state.field.velocity).toBe(5);
+
+		// Velocity = 5
+		expect(wrapper.vm.speed).toBe(60);
 	});
 
 	it('creates a food object with valid coordinates', () => {
@@ -122,9 +102,25 @@ describe('PlayGame', () => {
 	});
 
 	it('changes the direction when a key is pressed', () => {
-		const eventUp = { keyCode: 38 };
+		// Pressed Left arrow
+		let eventUp = { keyCode: DIRECTION_KEYS.LEFT };
 		wrapper.vm.getDirection(eventUp);
-		expect(wrapper.vm.dir).toBe('up');
+		expect(wrapper.vm.dir).toBe(DIRECTIONS.LEFT);
+
+		// Pressed Up arrow
+		eventUp = { keyCode: DIRECTION_KEYS.UP };
+		wrapper.vm.getDirection(eventUp);
+		expect(wrapper.vm.dir).toBe(DIRECTIONS.UP);
+
+		// Pressed Right arrow
+		eventUp = { keyCode: DIRECTION_KEYS.RIGHT };
+		wrapper.vm.getDirection(eventUp);
+		expect(wrapper.vm.dir).toBe(DIRECTIONS.RIGHT);
+
+		// Pressed Down arrow
+		eventUp = { keyCode: DIRECTION_KEYS.DOWN };
+		wrapper.vm.getDirection(eventUp);
+		expect(wrapper.vm.dir).toBe(DIRECTIONS.DOWN);
 	});
 
 	it('checks for collision and displays game over dialog', () => {

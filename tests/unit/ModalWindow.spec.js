@@ -19,7 +19,7 @@ describe('ModalWindow', () => {
 	});
 
 	it('Check that the header is displayed correctly', () => {
-		expect(wrapper.find('h3').text()).toBe(wrapper.vm.title);
+		expect(wrapper.find('.modal__inner-title').text()).toBe(wrapper.vm.title);
 	});
 
 	it('keyEventListener Event Handler is connected when mounted and disabled when unmounted', () => {

@@ -2,17 +2,30 @@ import { shallowMount } from '@vue/test-utils';
 import InputRange from '@/components/shared/InputRange';
 
 describe('InputRange', () => {
-	it('should emit the correct value when input changes', () => {
-		const wrapper = shallowMount(InputRange, {
+	let wrapper;
+
+	beforeEach(() => {
+		wrapper = shallowMount(InputRange, {
 			props: {
 				min: '1',
 				max: '5',
 				step: '1',
 				title: 'Speed Range',
 				value: '3',
+				changeHandler: jest.fn(),
 			},
 		});
+	});
 
+	afterEach(() => {
+		wrapper.unmount();
+	});
+
+	it('Check that the title is displayed correctly', () => {
+		expect(wrapper.find('label').text()).toBe(wrapper.vm.title);
+	});
+
+	it('should emit the correct value when input changes', () => {
 		const setValueMock = jest.fn();
 
 		wrapper.vm.setValue = setValueMock;
@@ -24,21 +37,11 @@ describe('InputRange', () => {
 	});
 
 	it('calls the changeHandler when the value changes', () => {
-		const changeHandler = jest.fn();
-		const wrapper = shallowMount(InputRange, {
-			props: {
-				min: '1',
-				max: '5',
-				step: '1',
-				title: 'Speed Range',
-				value: '3',
-				changeHandler,
-			},
-		});
+		const inputElement = wrapper.find('#range');
+		inputElement.element.value = '5';
+		inputElement.trigger('input');
 
-		wrapper.find('input').setValue('5');
-
-		expect(changeHandler).toHaveBeenCalledTimes(1);
-		expect(changeHandler).toHaveBeenCalledWith('5');
+		expect(wrapper.vm.changeHandler).toHaveBeenCalledTimes(1);
+		expect(wrapper.vm.changeHandler).toHaveBeenCalledWith('5');
 	});
 });

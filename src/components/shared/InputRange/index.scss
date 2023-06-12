@@ -1,74 +1,74 @@
 @import '@/assets/sass/var.sass';
 
 .form-main {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  
-  .form-content {
-    font-weight: normal;
-    font-size: 14px;
-    line-height: 16px;
-    text-transform: uppercase;
-    color: $border;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 8px;
 
-    .form-duration {
-      display: inline-block;
-      margin-bottom: 8px;
-    }
+	.form-content {
+		font-weight: normal;
+		font-size: 14px;
+		line-height: 16px;
+		text-transform: uppercase;
+		color: $border;
 
-    .form-value {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 58px;
-      font-weight: normal;
-      font-size: 12px;
-      line-height: 14px;
-      border: 1px solid $border;
-      border-radius: 4px;
-      padding: 8px 14px;
-      margin: 8px 0;
-    }
-  }
+		.form-duration {
+			display: inline-block;
+			margin-bottom: 8px;
+		}
 
-  input[type=range]  {
-    width: 216px;
-    appearance: none;
-  }
-  
-  input[type=range]::-webkit-slider-runnable-track {
-    border-radius: 4px;
-    height: 4px;
-    background: $border;
-  }
+		.form-value {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 58px;
+			font-weight: normal;
+			font-size: 12px;
+			line-height: 14px;
+			border: 1px solid $border;
+			border-radius: 4px;
+			padding: 8px 14px;
+			margin: 8px 0;
+		}
+	}
 
-  input[type=range]::-webkit-slider-thumb {
-    background: $border;
-    border-radius: 50%;
-    cursor: pointer;
-    width:12px;
-    height: 12px;
-    appearance: none;
-    margin-top: -4px;
-  }
+	input[type='range'] {
+		width: 216px;
+		appearance: none;
 
-  input[type=range]::-moz-range-track {
-    border-radius: 4px;
-    height: 4px;
-    background: $border;
-  }
+		&::-webkit-slider-runnable-track {
+			border-radius: 4px;
+			height: 4px;
+			background: $border;
+		}
 
-  input[type=range]::-moz-range-thumb {
-    background: $border;
-    border-radius: 50%;
-    cursor: pointer;
-    width:12px;
-    height: 12px;
-    appearance: none;
-    margin-top: -4px;
-  }
+		&::-webkit-slider-thumb {
+			background: $border;
+			border-radius: 50%;
+			cursor: pointer;
+			width: 12px;
+			height: 12px;
+			appearance: none;
+			margin-top: -4px;
+		}
+
+		&::-moz-range-track {
+			border-radius: 4px;
+			height: 4px;
+			background: $border;
+		}
+
+		&::-moz-range-thumb {
+			background: $border;
+			border-radius: 50%;
+			cursor: pointer;
+			width: 12px;
+			height: 12px;
+			appearance: none;
+			margin-top: -4px;
+		}
+	}
 }

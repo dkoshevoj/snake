@@ -1,14 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Bruno+Ace&display=swap');
+@import '@/assets/sass/fonts';
 
-*, *::before, *::after {
-  margin: 0;
-  padding: 0;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
+*,
+*::before,
+*::after {
+	margin: 0;
+	padding: 0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 body {
-  background-color: #cfc5c5;
-  font-family: 'Bruno Ace', cursive;
+	background-color: #cfc5c5;
+	font-family: 'Bruno Ace', cursive;
 }

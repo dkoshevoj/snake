@@ -110,7 +110,7 @@
 
 		& .arrow {
 			border-width: 0 1px 1px 0;
-			border-color: #000;
+			border-color: $black;
 		}
 
 		.options {
@@ -123,7 +123,7 @@
 			height: 20px;
 			margin: 8px 0;
 			padding: 2px 11px;
-			color: #000;
+			color: $black;
 			border: none;
 		}
 	}
@@ -137,7 +137,7 @@
 
 		& .arrow {
 			border-width: 0 1px 1px 0;
-			border-color: #000;
+			border-color: $black;
 		}
 
 		.options {
@@ -176,7 +176,7 @@
 	}
 
 	&.disabled {
-		background: #5e5e5e;
+		background: $disabled-bg-button;
 		color: $disabled;
 		transition: background 0.1s linear;
 
@@ -185,7 +185,7 @@
 		}
 
 		&:active {
-			background: #ccaa00;
+			background: $bg-select-active;
 		}
 	}
 }
